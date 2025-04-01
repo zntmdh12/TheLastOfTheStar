@@ -58,14 +58,17 @@ public class Player : MonoBehaviour
 
     void PlayerAttack() // 플레이어 공격 함수
     {
-        if (Input.GetMouseButton(1)) // 마우스 오른쪽 버튼 클릭 시
+        if (Input.GetMouseButtonDown(1)) // 마우스 오른쪽 버튼 클릭 시
         {
-            Ray ray = new Ray(transform.position + Vector3.up * 0.5f, transform.forward); // 레이 생성
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // 마우스우클릭방향
             RaycastHit hit; // 거리정보 hit에 저장
 
+            float attackRange = 10f;
 
-            if (Physics.Raycast(ray, out hit, 10f)) //만약에 10근처까지 검사를 했다면 그걸 hit에 저장하고
+            if (Physics.Raycast(ray, out hit, attackRange))//만약에 10근처까지 검사를 했다면 그걸 hit에 저장하고
             {
+
+                Debug.Log("맞은 대상: " + hit.collider.name);
                 if (hit.collider.CompareTag("Dummy")) // 부딪힌 콜라이더의 태그가 Dummy라면
                 {
                     Dummy dummy = hit.collider.GetComponent<Dummy>(); // Dummy의 Dummy 태그 붙은 콜라이더 가져오기
